@@ -46,8 +46,6 @@ function showTemperature(response) {
   let temperatureElement = document.querySelector("#temperature");
   temperatureElement.innerHTML = `${temperature}`;
   document.querySelector("#city").innerHTML = response.data.name;
-  document.querySelector("#sky-description").innerHTML =
-    response.data.weather.description;
   document.querySelector("#feels-like").innerHTML = Math.round(
     response.data.main.feels_like
   );
@@ -57,17 +55,16 @@ function showTemperature(response) {
   );
 }
 
-function locatePosition(position) {
-  let latitude = position.coords.latitude;
-  let longitude = position.coords.longitude;
+function searchLocation(position) {
   let apiKey = "ae3ffbb2ba5fd172289cc56d929ac85e";
-  let apiUrl = `http://api.openweathermap.org/data/2.5/find?lat=${latitude}&lon=${longitude}&appid=${apiKey}&units=metric`;
-  axios.get(apiUrl).then(showTemperature);
+  let apiUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${position.coords.latitude}&lon=${position.coords.longitude}&appid=${apiKey}&units=metric`;
+axios.get(apiUrl).then(showTemperature);
 }
 
-function getCurrentPosition() {
-  navigator.geolocation.getCurrentPosition(locatePosition);
+function getCurrentLocation(event){
+event.preventDefault();
+navigator.geolocation.getCurrentPosition(searchLocation);
 }
 
-let locationButton = document.querySelector("#geolocate-button");
-locationButton.addEventListener("click", getCurrentPosition);
+let geolocateButton = document.querySelector("#geolocate-button");
+geolocateButton.addEventListener("click", getCurrentLocation);

@@ -49,6 +49,10 @@ a {
   line-height: 1;
 }
 
+#full-description {
+  margin-top: -25px;;
+}
+
 .units {
   position: relative;
   top: -34px;
